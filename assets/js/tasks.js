@@ -86,6 +86,16 @@ function showVrSection () {
 
     // default show first section
     showImgSection();
+
+
+
+    // vr image title click, open new tab to show full image
+    $('.full-panorama-wrap .vr-image-wrap .pp-img-desc').click(e => {
+        const imagePath = $(e.target).siblings('.vr-img-item:first').children('a-sky:first').attr('src');
+        // console.log(imagePath)
+        window.open(imagePath, '_blank');
+    })
+
 }
 function showQRSection () {
     const imgSections = $('.p-res-wrap');

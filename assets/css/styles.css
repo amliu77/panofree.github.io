@@ -476,6 +476,7 @@ h6 {
 
 .affiliations {
     text-align: center;
+    padding: 0 15%;
 }
 
 .authors {
@@ -876,6 +877,10 @@ model-viewer .controls {
 .pp-img-desc {
     font-style: italic;
     margin-bottom: 8px;
+}
+.vr-image-wrap .pp-img-desc {
+    color: #1772d0;
+    cursor: pointer;
 }
 
 
