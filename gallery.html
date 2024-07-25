@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>MVDiffusion | Gallery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+  <!-- <link rel="stylesheet" href="/assets/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <link rel="manifest" href="/site.webmanifest">
+
+
+  <script src="assets/js/video_comparison.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
+</head>
+
+<body>
+  <div class="highlight-clean" style="padding-bottom: 10px;">
+    <div class="container" style="max-width: 1000px;">
+        <h1 class="text-center"><b>MVDiffusion</b>: Enabling Holistic Multi-view Image Generation with Correspondence-Aware Diffusion</h1>
+    </div>
+    <div class="container" style="max-width: 980px;">
+        <div class="row authors">
+          <div class="col">
+              <h5 class="text-center"><a class="text-center" href="https://tangshitao.github.io/">Shitao Tang<sup>*1</sup> </a></h5>
+          </div>
+          <div class="col">
+              <h5 class="text-center"><a href="https://zhangfuyang.github.io/">Fuyang Zhang<sup>*1</sup></a></h5>
+          </div>
+          <div class="col">
+              <h5 class="text-center"><a class="text-center" href="https://jcchen.me/">Jiacheng Chen<sup>1</sup></a></h5>
+          </div>
+          <div class="col">
+              <h5 class="text-center"><a class="text-center" href="https://pengwangucla.github.io/peng-wang.github.io/">Peng Wang<sup>2</sup></a></h5>
+          </div>
+          <div class="col">
+              <h5 class="text-center"><a class="text-center" href="https://www.cs.sfu.ca/~furukawa/">Yasutaka Furukawa<sup>1</sup></a></h5>
+          </div>
+        </div>
+        <div class="row affiliations">
+                <div class="col">
+                    <h6 class="text-center"><a class="text-center"><sup>1</sup>Simon Fraser University</a></h6>
+                </div>
+                <div class="col">
+                    <h6 class="text-center"><a class="text-center"><sup>2</sup>Bytedance</a></h6>
+                </div>
+            </div>
+        <div class="buttons" style="margin-bottom: 8px;">
+            <a class="btn btn-light" role="button" href="https://arxiv.org/abs/2307.01097">
+                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z"></path>
+                </svg>Paper
+            </a>
+            <a class="btn btn-light" role="button" href="index.html">
+                <svg style="visibility:hidden;width:0px;height:24px;margin-left:-12px;margin-right:12px" width="0px" height="24px" viewBox="0 0 375 531">
+                    <polygon stroke="#000000" points="0.5,0.866 459.5,265.87 0.5,530.874 "/>
+                </svg>
+                Project
+            </a>
+            <a class="btn btn-light" role="button" href="https://github.com/Tangshitao/MVDiffusion">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;margin-left:-12px;margin-right:12px" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 
+                            1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 
+                            3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 
+                            2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                Code
+            </a>
+            <a class="btn btn-light disabled border border-dark" aria-disabled="true" role="button" href="#">
+                <svg style="width:24px;height:24px;margin-left:-12px;margin-right:12px" width="24px" height="24px" viewBox="0 0 375 531">
+                    <polygon stroke="#000000" points="0.5,0.866 459.5,265.87 0.5,530.874 "/>
+                </svg>
+                Gallery
+            </a>
+            <a class="btn btn-light" role="button" href="https://huggingface.co/spaces/tangshitao/MVDiffusion">
+                <img style="width:24px;height:24px;margin-left:-1px;margin-right:8px" width="24px" height="24px" viewBox="0 0 375 531" src="hf-logo.svg" alt="Hugging Face Logo">
+                Demo
+            </a>
+        </div>
+    </div>
+
+  </div>
+
+  <hr class="divider"/>
+    <div class="container meshes" id="meshContainer" style="max-width: 768px;">
+        <div class="row">
+          <div class="col-md-12">
+              <h2>Example generated texture meshes</h2>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                  reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                  touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                  src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0724_00_0.glb" 
+                  poster="/assets/meshes2/scene0724_00_0.png" id="mesh-scene0724_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0724_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                  reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                  touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                  src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0760_00_0.glb" 
+                  poster="/assets/meshes2/scene0760_00_0.png" id="mesh-scene0760_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0760_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                  reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                  touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                  src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0733_00_0.glb" 
+                  poster="/assets/meshes2/scene0733_00_0.png" id="mesh-scene0733_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0733_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                  reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                  touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                  src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0749_00_0.glb" 
+                  poster="/assets/meshes2/scene0749_00_0.png" id="mesh-scene0749_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0749_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" reveal="manual" 
+                    style="height: 300px; width: 100%;" camera-controls="true" touch-action="pan-y" 
+                    shadow-intensity="1" exposure="1" 
+                    src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0734_00_0.glb" 
+                    poster="/assets/meshes2/scene0734_00_0.png" id="mesh-scene0734_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0734_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                    reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                    touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                    src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0741_00_0.glb" 
+                    poster="/assets/meshes2/scene0741_00_0.png" id="mesh-scene0741_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0741_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                    reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                    touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                    src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0737_00_0.glb" 
+                    poster="/assets/meshes2/scene0737_00_0.png" id="mesh-scene0737_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0737_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+          <div class="col-md-6 col-sm-6 my-auto">
+            <model-viewer ar="true" ar-modes="webxr scene-viewer quick-look" loading="lazy" 
+                    reveal="manual" style="height: 300px; width: 100%;" camera-controls="true" 
+                    touch-action="pan-y" shadow-intensity="1" exposure="1" 
+                    src="https://www.sfu.ca/~fuyangz/mvdiffusion/mesh/scene0738_00_0.glb" 
+                    poster="/assets/meshes2/scene0738_00_0.png" id="mesh-scene0738_00_0" ar-status="not-presenting">
+            </model-viewer>
+            <div class="controls">
+              <button class="btn btn-primary loads-model" data-controls="mesh-scene0738_00_0" data-action="load">
+                Load 3D model
+              </button>
+            </div>
+            <p class="caption" title=""></p>
+          </div>
+        </div> -->
+    </div>
+
+
+
+    <script src="https://polyfill.io/v3/polyfill.js?features=IntersectionObserver"></script>
+    <script src="/assets/js/yall.js"></script>
+    <script>
+        yall(
+            {
+                observeChanges: true
+            }
+        );
+    </script>
+    <script src="/assets/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://uploads-ssl.webflow.com/51e0d73d83d06baa7a00000f/js/webflow.fd002feec.js"></script> -->
+    <!-- Import the component -->
+
+</body>
+</html>

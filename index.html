@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>PanoFree: Tuning-Free Holistic Multi-view Image Generation with Cross-view Self-Guidance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta property="og:site_name" content="PanoFree" />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:title" content="PanoFree: Tuning-Free Holistic Multi-view Image Generation with Cross-view Self-Guidance" />
+    <meta property="og:description" content="PanoFree, 2023." />
+    <meta property="og:url" content="https://panofree.github.io/" />
+
+    <meta property="article:publisher" content="https://panofree.github.io/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PanoFree: Tuning-Free Holistic Multi-view Image Generation with Cross-view Self-Guidance" />
+    <meta name="twitter:url" content="https://panofree.github.io/" />
+
+    <script src="assets/js/video_comparison.js"></script>
+    <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <style>
+    .expandable-content {
+      display: none;
+    }
+    .expanded {
+      display: block;
+    }
+    .expand-link {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="highlight-clean" style="padding-bottom: 10px;">
+        <div class="container" style="max-width: 1000px; ">
+            <h1 class="text-center"><b>PanoFree</b>: Tuning-Free Holistic Multi-view Image Generation with Cross-view Self-Guidance </h1>
+            <h5 class="text-center"> <b>Accepted by ECCV 2024</b> </h5>
+        </div>
+        <div class="container" style="max-width: 980px;     padding: 15px 0;">
+            <div class="row authors">
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://cs-people.bu.edu/amliu/">Aoming Liu<sup>1,2</sup> </a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a href="https://sites.google.com/site/lizhong19900216">Zhong Li<sup>1</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://zhangchen8.github.io/">Zhang Chen<sup>1</sup></a></h5>
+                </div>
+                <!--<div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://cs-people.bu.edu/nnli/">Nannan Li<sup>2</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://www.linkedin.com/in/yi-xu-42654823/">Yi Xu<sup>1</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://bryanplummer.com/">Bryan A. Plummer<sup>2</sup></a></h5>
+                </div>-->
+            </div>
+            <div class="row authors">
+                <!--<div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://cs-people.bu.edu/amliu/">Aoming Liu<sup>1,2</sup> </a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a href="https://sites.google.com/site/lizhong19900216">Zhong Li<sup>1</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://zhangchen8.github.io/">Zhang Chen<sup>1</sup></a></h5>
+                </div>-->
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://cs-people.bu.edu/nnli/">Nannan Li<sup>2</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://www.linkedin.com/in/yi-xu-42654823/">Yi Xu<sup>1</sup></a></h5>
+                </div>
+                <div class="col">
+                    <h5 class="text-center"><a class="text-center" href="https://bryanplummer.com/">Bryan A. Plummer<sup>2</sup></a></h5>
+                </div>
+            </div>
+            <div class="row affiliations">
+                <div class="col">
+                    <h6 class="text-center"><a class="text-center"><sup>1</sup>OPPO US Research Center</a></h6>
+                </div>
+                <div class="col">
+                    <h6 class="text-center"><a class="text-center"><sup>2</sup>Boston University</a></h6>
+                </div>
+            </div>
+        </div>
+        <div class="buttons" style="margin-bottom: 8px;">
+
+        </div>
+    </div>
+	<div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Abstract</h2>
+                <p>
+                    Immersive scene generation, notably panorama creation, benefits significantly from the adaptation of large pre-trained text-to-image (T2I) models for multi-view image generation. Due to the high cost of acquiring multi-view images, tuning-free generation is preferred. However, existing methods are either limited to simple correspondences or require extensive fine-tuning to capture complex ones. We present PanoFree, a novel method for tuning-free multi-view image generation that supports an extensive array of correspondences.
+                    <em>PanoFree</em> sequentially generates multi-view images using iterative warping and inpainting, addressing the key issues of inconsistency and artifacts from error accumulation without the need for fine-tuning.
+                    <span id="expand_button" class="expand-link" onclick="expand('expand_button', 'long-abs', 'collapse_button')">[Expand]</span>
+                    <span id="long-abs" class="expandable-content">
+                        It improves error accumulation by enhancing cross-view awareness and refines the warping and inpainting processes via cross-view guidance, risky area estimation and erasing, and symmetric bidirectional guided generation for loop closure, alongside guidance-based semantic and density control for scene structure preservation. In experiments on Planar, 360°, and Full Spherical Panoramas, PanoFree demonstrates significant error reduction, improves global consistency, and boosts image quality without extra fine-tuning. Compared to existing methods, PanoFree is up to 5x more efficient in time and 3x more efficient in GPU memory usage, and maintains superior diversity of results (2x better in our user study). PanoFree offers a viable alternative to costly fine-tuning or the use of additional pre-trained models.
+                    </span>
+                    <p id="collapse_button" class="expand-link" style="display: none;" onclick="collapse('expand_button', 'long-abs', 'collapse_button')">[Collapse]</p>
+                </p>
+            </div>
+            <script>
+                function expand(exp_buttonId, longId, col_buttonID) {
+                  var expElement = document.getElementById(exp_buttonId);
+                  var longElement = document.getElementById(longId);
+                  var colElement = document.getElementById(col_buttonID);
+                  expElement.style.display = 'none';
+                  longElement.style.display = 'inline';
+                  colElement.style.display = 'block';
+                }
+
+                function collapse(exp_buttonId, longId, col_buttonID) {
+                  var expElement = document.getElementById(exp_buttonId);
+                  var longElement = document.getElementById(longId);
+                  var colElement = document.getElementById(col_buttonID);
+                  expElement.style.display = 'inline';
+                  longElement.style.display = 'none';
+                  colElement.style.display = 'none';
+                }
+            </script>
+        </div>
+    </div>
+
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Method</h2>
+                <img src="assets/images/method.png" alt="Method" style="width:100%">
+                <p> Overview of our PanoFree method, taking 360° Panorama Generation as an example. (a): At a framework level, PanoFree adopts two generation paths with opposite viewpoint translation or rotation. It enhances consistency by symmetrically selecting views from the other path as guidance to generate a new view. Loop closure is ensured by merging these two paths. (b): In each warping and inpainting step, PanoFree reduces accumulated error by guiding the inpainting process with cross-view images, along with estimating and erasing risky areas.  </p>
+            </div>
+        </div>
+    </div>
+
+    <!--<hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row captioned_videos">
+            <div class="col-md-12">
+                <img src="assets/images/teaser_v2.gif" alt="Image Description" style="width:100%">
+                <h6 class="caption"> Given text descriptions, MVDiffusion generates holistically consistent multi-view images with high resolution and rich content, which benefits practical tasks such as panorama generation and multi-view depth-to-image generation. </h6>
+            </div>
+        </div>
+    </div>-->
+
+
+    <hr class="divider" />
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Results showcase</h2>
+                <img src="assets/images/results_showcase.png" alt="Results showcase" style="width:100%">
+                <p> PanoFree can generate multi-view images according to different types of correspondences without fine-tuning, and a natural application is tuning-free generation for different types of panoramas.
+                    We demonstrate this by generating three commonly used panoramas. Top: <strong style="font-weight: bold;">Planar Panorama</strong>; Middle:  <strong style="font-weight: bold;">360° Panorama</strong>; Bottom:  <strong style="font-weight: bold;">Full Panorama</strong>.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!--TASK1-->
+    <br>
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Task 1: Planar Panorama generation </h4>
+
+                <div class="planar-panorama-wrap">
+                    <div class="three-button">
+                        <div class="pp-btn indoor">
+                            <button class="btn btn-default  "  data-section-id="t11" >Indoor</button>
+                        </div>
+                        <div class="pp-btn ciy">
+                            <button class="btn btn-default   "  data-section-id="t12" >City</button>
+                        </div>
+                        <div class="pp-btn nature">
+                            <button class="btn btn-default   " data-section-id="t13" >Nature</button>
+                        </div>
+                    </div>
+
+                    <div class="pp-images-wrap"  >
+                        <div class="pp-image">
+                            <div class="pp-img-desc">A bright and airy sunroom with wicker furniture, hanging plants, and large windows</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/indoor/A_bright_and_airy_sunroom_with_wicker_furniture_hanging_plants_and_large_windows.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Bakery kitchen filled with the scent of freshly baked bread</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/indoor/Bakery_kitchen_filled_with_the_scent_of_freshly_baked_bread.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Chic loft apartment with exposed brick walls and industrial decor</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/indoor/Chic_loft_apartment_with_exposed_brick_walls_and_industrial_decor.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Elegant ballroom with crystal chandeliers and marble floors</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/indoor/Elegant_ballroom_with_crystal_chandeliers_and_marble_floors.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Medieval banquet hall with long wooden tables and torches</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/indoor/Medieval_banquet_hall_with_long_wooden_tables_and_torches.png" alt=""  >
+                        </div>
+
+                    </div>
+
+                    <div class="pp-images-wrap">
+                        <div class="pp-image">
+                            <div class="pp-img-desc">City riverwalk with jogging paths and benches</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/city/City_riverwalk_with_jogging_paths_and_benches.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Colorful street performers entertaining crowds</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/city/Colorful_street_performers_entertaining_crowds.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Hipster neighborhood with vintage shops and cafes</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/city/Hipster_neighborhood_with_vintage_shops_and_cafes.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Industrial area with warehouses and shipping containers</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/city/Industrial_area_with_warehouses_and_shipping_containers.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Skyline of New York City</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/city/Skyline_of_New_York_City.png" alt=""  >
+                        </div>
+
+
+                    </div>
+
+                    <div class="pp-images-wrap">
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Magnificent canyon vista with sheer cliffs and winding rivers</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/natural/Magnificent_canyon_vista_with_sheer_cliffs_and_winding_rivers.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Misty morning fog rolling over a tranquil river valley</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/natural/Misty_morning_fog_rolling_over_a_tranquil_river_valley.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Peaceful coastal marshland alive with bird calls</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/natural/Peaceful_coastal_marshland_alive_with_bird_calls.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Rolling hills covered in golden fields of wheat</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/natural/Rolling_hills_covered_in_golden_fields_of_wheat.png" alt=""  >
+                        </div>
+
+                        <div class="pp-image">
+                            <div class="pp-img-desc">Tranquil coastal inlet with calm waters and rocky cliffs</div>
+                            <img class="pp-indoor-img" src="assets/images/tasks/Planar_final/natural/Tranquil_coastal_inlet_with_calm_waters_and_rocky_cliffs.png" alt=""  >
+                        </div>
+
+
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <br>
+    <br>
+
+
+    <!--TASK2-->
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Task 2: 360° Panorama generation</h4>
+
+                <div class="p360-panorama-wrap">
+                    <div class="three-button">
+                        <div class="pp-btn indoor">
+                            <button class="btn btn-default  "  data-section-id="t11" >Indoor</button>
+                        </div>
+                        <div class="pp-btn ciy">
+                            <button class="btn btn-default   "  data-section-id="t12" >City</button>
+                        </div>
+                        <div class="pp-btn nature">
+                            <button class="btn btn-default   " data-section-id="t13" >Nature</button>
+                        </div>
+                    </div>
+
+                    <div class="p360-videos-wrap"  >
+                        <div class="p360-image">
+                            <div class="pp-img-desc">A modern kitchen with sleek appliances and an open floor plan</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/indoor/A_modern_kitchen_with_sleek_appliances_and_an_open_floor_plan.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc">City rooftop bar with panoramic views</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/indoor/City_rooftop_bar_with_panoramic_views.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Cozy log cabin with a stone fireplace and rustic wooden furniture</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/indoor/Cozy_log_cabin_with_a_stone_fireplace_and_rustic_wooden_furniture.mp4"  controls></video>
+                        </div>
+
+                    </div>
+
+
+                    <div class="p360-videos-wrap"  >
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Iconic city skyline of Shanghai city</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/city/Iconic_city_skyline_of_Shanghai_city.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc" title="Quaint canal lined with boats and cafes">Quaint canal lined with boats...</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/city/Quaint_canal_lined_with_boats_and_cafes.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Street art area under a cloudy sky</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/city/Street_art_area_under_a_cloudy_sky.mp4"  controls></video>
+                        </div>
+
+                    </div>
+
+
+                    <div class="p360-videos-wrap"  >
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Charming alpine village nestled among snow-capped peaks</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/nature/Charming_alpine_village_nestled_among_snow-capped_peaks.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Desert oasis with palm trees and a shimmering pool</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/nature/Desert_oasis_with_palm_trees_and_a_shimmering_pool.mp4"  controls></video>
+                        </div>
+
+                        <div class="p360-image">
+                            <div class="pp-img-desc">Rocky desert landscape with towering saguaro cacti</div>
+                            <video class="p360-indoor-video" src="assets/images/tasks/360_final/nature/Rocky_desert_landscape_with_towering_saguaro_cacti.mp4"  controls></video>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+
+    <!--TASK3-->
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Task 3: Full Panorama generation</h4>
+
+                <div class="full-panorama-wrap">
+                    <div class="three-button">
+                        <div class="pp-btn indoor">
+                            <button class="btn btn-default  "  data-section-id="t11" >Indoor</button>
+                        </div>
+                        <div class="pp-btn ciy">
+                            <button class="btn btn-default   "  data-section-id="t12" >City</button>
+                        </div>
+                        <div class="pp-btn nature">
+                            <button class="btn btn-default   " data-section-id="t13" >Nature</button>
+                        </div>
+                    </div>
+
+                    <!--Indoor-->
+                    <div class="vr-image-wrap"  >
+                        <div class="full-image">
+                            <div class="pp-img-desc">Industrial-style loft with open beams and concrete floors</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/indoor/Industrial-style_loft_with_open_beams_and_concrete_floors.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Quirky steampunk workshop filled with gears and gadgets</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/indoor/Quirky_steampunk_workshop_filled_with_gears_and_gadgets.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Yoga studio with bamboo floors and serene décor</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/indoor/Yoga_studio_with_bamboo_floors_and_serene_decor.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                    </div>
+
+                    <!--City-->
+                    <div class="vr-image-wrap"  >
+                        <div class="full-image">
+                            <div class="pp-img-desc">City riverwalk with jogging paths and benches</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/city/City_riverwalk_with_jogging_paths_and_benches.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Cozy neighborhood pub with outdoor seatings</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/city/Cozy_neighborhood_pub_with_outdoor_seatings.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Historic city square with cobblestone streets and cafes</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/city/Historic_city_square_with_cobblestone_streets_and_cafes.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                    </div>
+
+                    <!--Nature-->
+                    <div class="vr-image-wrap"  >
+                        <div class="full-image">
+                            <div class="pp-img-desc">Desert oasis with palm rees and a shimmering pool</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/nature/Desert_oasis_with_palm_rees_and_a_shimmering_pool.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Enchanting bluebell forest in full bloom</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/nature/Enchanting_bluebell_forest_in_full_bloom.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                        <div class="full-image">
+                            <div class="pp-img-desc">Golden sunset casting a warm glow over a peaceful beach</div>
+                            <!-- A-Frame Scene -->
+                            <a-scene  embedded class="vr-img-item" >
+                                <a-sky  src="assets/images/tasks/full_final/nature/Golden_sunset_casting_a_warm_glow_over_a_peaceful_beach.png" ></a-sky>
+                                <a-camera look-controls="reverseMouseDrag: true; sensitivity: 0.2;" fov="80"></a-camera>
+                            </a-scene>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <br>
+    <br>
+
+
+    <!--Quantitative Results-->
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Quantitative Results</h4>
+
+                <div class="q-results-wrap">
+                    <div class="three-button">
+                        <div class="pp-btn indoor">
+                            <button class="btn btn-default  "  data-section-id="t11" >Planar</button>
+                        </div>
+                        <div class="pp-btn nature">
+                            <button class="btn btn-default   " data-section-id="t12" >360°</button>
+                        </div>
+                    </div>
+
+                    <!--Planar-->
+                    <div class="p-res-wrap"  >
+                            <img class="pr-planar-img" src="assets/images/pr-planar.png" alt=""  >
+                    </div>
+
+                    <!--360-->
+                    <div class="p-res-wrap"  >
+                        <img class="pr-360-img" src="assets/images/pr-360.png" alt=""  >
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <br>
+    <br>
+
+
+    <!--User Study-->
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>User Study</h4>
+
+                <div class="user-study-wrap">
+                    <div class="three-button">
+                        <div class="pp-btn indoor">
+                            <button class="btn btn-default  "  data-section-id="t11" >Planar</button>
+                        </div>
+                        <div class="pp-btn nature">
+                            <button class="btn btn-default   " data-section-id="t12" >360°</button>
+                        </div>
+                    </div>
+
+                    <!--Planar-->
+                    <div class="u-img-wrap"  >
+                            <img class="u-planar-img" src="assets/images/us-planar.png" alt=""  >
+                    </div>
+
+                    <!--360-->
+                    <div class="u-img-wrap"  >
+                        <img class="u-360-img" src="assets/images/us-360.png" alt=""  >
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="https://polyfill.io/v3/polyfill.js?features=IntersectionObserver"></script>
+    <script src="/assets/js/yall.js"></script>
+    <script>
+        yall(
+            {
+                observeChanges: true
+            }
+        );
+    </script>
+    <script src="/assets/js/scripts_v2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://uploads-ssl.webflow.com/51e0d73d83d06baa7a00000f/js/webflow.fd002feec.js"></script> -->
+    <!-- Import the component -->
+
+
+    <script src="/assets/js/tasks.js"></script>
+
+
+<script>
+  function openImage(imageName) {
+    window.open(imageName, '_blank');
+  }
+
+
+  $(document).ready(function(){
+      showTaskSection ();
+      show360PanoramaSection ();
+      showVrSection ();
+      showQRSection ();
+      showUsSection ();
+
+
+      // $("button").click(function(){
+      //     $("p").slideToggle();
+      // });
+  });
+</script>
+
+</body>
+
+</html>
